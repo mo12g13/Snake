@@ -8,10 +8,13 @@ public class Snake {
 	final int DIRECTION_UP = 0;
 	final int DIRECTION_DOWN = 1;
 	final int DIRECTION_LEFT = 2;
-	final int DIRECTION_RIGHT = 3;  //These are completely arbitrary numbers. 
+	final int DIRECTION_RIGHT = 3;  //These are completely arbitrary numbers.
 
 	private boolean hitWall = false;
+
+
 	private boolean ateTail = false;
+	private boolean hitObstacle = false;
 
 	private int snakeSquares[][];  //represents all of the squares on the screen
 	//NOT pixels!
@@ -143,6 +146,7 @@ public class Snake {
 			return;
 		}
 
+
 		//Use snakeSquares array, and current heading, to move snake
 
 		//Put a 1 in new snake head square
@@ -179,6 +183,26 @@ public class Snake {
 		if (currentHeading == DIRECTION_RIGHT) {		
 			//Add 1 to X coordinate so head is 1 square to the right
 			snakeHeadX ++ ;
+		}
+
+		//checking to see if snake hits the wall, if truth, ignore it!
+		if (SnakeGame.wardInUse()) {
+			if (snakeHeadX < 0) {
+				snakeHeadX = maxX - 1;
+			} else if (snakeHeadX >= maxX) {
+				snakeHeadX = 0;
+			} else if (snakeHeadY < 0) {
+				snakeHeadY = maxY - 1;
+			} else if (snakeHeadY >= maxY) {
+				snakeHeadY = 0;
+			}
+		} else {
+			//Is this snake heading to hitting the wall? ignore it and let snake go through the wall
+			if (snakeHeadX >= maxX || snakeHeadX < 0 || snakeHeadY >= maxY || snakeHeadY < 0) {
+				hitWall = true;
+				SnakeGame.setGameStage(SnakeGame.GAME_OVER);
+				return;
+			}
 		}
 
 		//Does this make snake hit the wall?
@@ -268,6 +292,9 @@ public class Snake {
 		return true;
 	}
 
+
+
+
 	public void reset() {
 		hitWall = false;
 		ateTail = false;
@@ -282,6 +309,8 @@ public class Snake {
 		}
 		return false;
 	}
+
+
 
 
 }

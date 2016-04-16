@@ -46,6 +46,11 @@ public class Kibble {
 		return kibbleY;
 	}
 
+	public boolean iskibbleFound(int x, int y) {
+		return (x == kibbleX) && (y == kibbleY);
+	}
 
-	
+
+
+
 }

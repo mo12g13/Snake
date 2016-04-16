@@ -1,9 +1,11 @@
 package com.Momo;
 
+import javax.swing.*;
+
 /**
  * Created by Clara. Manages game components such as the Snake, Kibble... and their interactions.
  */
-public class GameComponentManager {
+public class GameComponentManager{
 
     private Kibble kibble;
     private Snake snake;

@@ -1,5 +1,6 @@
 package com.Momo;
 
+import java.awt.*;
 import java.util.Timer;
 
 import javax.swing.*;
@@ -7,8 +8,8 @@ import javax.swing.*;
 
 public class SnakeGame {
 
-	public final static int xPixelMaxDimension = 501;  //Pixels in window. 501 to have 50-pixel squares plus 1 to draw a border on last square
-	public final static int yPixelMaxDimension = 501;
+	public final static int xPixelMaxDimension = 600;  //Pixels in window. 501 to have 50-pixel squares plus 1 to draw a border on last square
+	public final static int yPixelMaxDimension = 500;//Change the pixel from 800 and 700 pixel
 
 	public static int xSquares ;
 	public static int ySquares ;
@@ -16,10 +17,22 @@ public class SnakeGame {
 	public final static int squareSize = 50;
 
 	protected static Snake snake ;
+	private static boolean warp = false;
+	private static boolean mainChallenge = false;
+	private static int numberOfObstacles = 5;
+
 
 	private static GameComponentManager componentManager;
 
 	protected static Score score;
+	static final long SPEED_1 = 500;
+	static final long SPEED_2 = 400;
+	static final long SPEED_3 = 300;
+	static final long SPEED_4 = 200;
+	static final long SPEED_5 = 100;
+
+	protected static long ndwClockInterval = SPEED_1;
+
 
 	static final int BEFORE_GAME = 1;
 	static final int DURING_GAME = 2;
@@ -47,7 +60,9 @@ public class SnakeGame {
 	public static void main(String[] args) {
 		//Schedule a job for the event-dispatching thread:
 		//creating and showing this application's GUI.
+
 		SwingUtilities.invokeLater(new Runnable() {
+
 			public void run() {
 				initializeGame();
 				createAndShowGUI();
@@ -58,13 +73,32 @@ public class SnakeGame {
 
 	private static void createAndShowGUI() {
 		//Create and set up the window.
+		try{
+			//Changing the lool and feel of the Jrame to CDE/Motif
+			for(UIManager.LookAndFeelInfo info: UIManager.getInstalledLookAndFeels()){
+				//System.out.println(info.getName());
+				if("CDE/Motif".equals(info.getName())){
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 		snakeFrame = new JFrame();
 		snakeFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();//Get a default screen size
+
 
 		snakeFrame.setSize(xPixelMaxDimension, yPixelMaxDimension);
+		snakeFrame.setLocation(dim.width/2-snakeFrame.getWidth()/2, dim.height/2-snakeFrame.getHeight()/2);//Position the screen in the middle
+		//of the window
 		snakeFrame.setUndecorated(true); //hide title bar
 		snakeFrame.setVisible(true);
 		snakeFrame.setResizable(false);
+
+
 
 		snakePanel = new DrawSnakeGamePanel(componentManager);
 
@@ -74,8 +108,10 @@ public class SnakeGame {
 		snakeFrame.add(snakePanel);
 
 		//Add listeners to listen for key presses
-		snakePanel.addKeyListener(new GameControls());
+		snakePanel.addKeyListener(new GameControls(snake));
 		snakePanel.addKeyListener(new SnakeControls(snake));
+
+
 
 		setGameStage(BEFORE_GAME);
 
@@ -113,8 +149,38 @@ public class SnakeGame {
 	public static int getGameStage() {
 		return gameStage;
 	}
+	public static boolean gameEnded() {
+		return gameStage == GAME_OVER || gameStage == GAME_WON;
+	}
 
 	public static void setGameStage(int gameStage) {
 		SnakeGame.gameStage = gameStage;
 	}
+
+	//A method that set the wrap wall
+	public static void isWarp() {
+		warp = !warp;
+	}
+	
+	//A method that check to see if the warp wall is in use
+	public static boolean wardInUse() {
+		return warp;
+	}
+	//A method that set a challenging level in the game
+	public static void challenge() {
+		mainChallenge = !mainChallenge;
+	}
+	//A method that checks to see if the challenge is being turn on
+	public static boolean challengInUse() {
+		return mainChallenge;
+	}
+	// A mthod
+	public static void setGameSpeed(long speed) {
+		clockInterval = speed;
+	}
+	public static long getGameSpeed() {
+		return clockInterval;
+	}
+
+
 }
