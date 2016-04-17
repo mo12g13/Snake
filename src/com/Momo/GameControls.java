@@ -27,7 +27,7 @@ public class   GameControls implements KeyListener {
 			if (ev.getKeyCode() == KeyEvent.VK_W) {
 				SnakeGame.isWarp();
 			}
-			if (ev.getKeyCode() == KeyEvent.VK_O) {
+			if (ev.getKeyCode() == KeyEvent.VK_CAPS_LOCK) {
 				SnakeGame.challenge();
 			}
 			//The default game speed

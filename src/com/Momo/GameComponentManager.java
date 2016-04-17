@@ -11,6 +11,7 @@ public class GameComponentManager{
     private Snake snake;
     private Score score;
     private ChallengeLevel challengeLevel;
+    public  static Icon b;
 
     /** Called every clock tick. Tell components to interact/update,
      * manage interactions, update score etc.
@@ -24,6 +25,7 @@ public class GameComponentManager{
 			//tell kibble to update
             kibble.moveKibble(snake);
             Score.increaseScore();
+
 
 		}
     }
@@ -64,5 +66,7 @@ public class GameComponentManager{
     public ChallengeLevel getChallengeLevel(){
         return challengeLevel;
     }
+
+
 
 }

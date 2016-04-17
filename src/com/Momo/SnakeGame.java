@@ -1,6 +1,8 @@
 package com.Momo;
 
 import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Timer;
 
 import javax.swing.*;
@@ -8,8 +10,8 @@ import javax.swing.*;
 
 public class SnakeGame {
 
-	public final static int xPixelMaxDimension = 600;  //Pixels in window. 501 to have 50-pixel squares plus 1 to draw a border on last square
-	public final static int yPixelMaxDimension = 500;//Change the pixel from 800 and 700 pixel
+	public final static int xPixelMaxDimension = 701;  //Pixels in window. 501 to have 50-pixel squares plus 1 to draw a border on last square
+	public final static int yPixelMaxDimension = 701;//Change the pixel from 800 and 700 pixel
 
 	public static int xSquares ;
 	public static int ySquares ;
@@ -23,6 +25,7 @@ public class SnakeGame {
 	private static int numberOfObstacles = 5;
 	private static ChallengeLevel challengeLevel;
 	private static 	Kibble kibble;
+
 
 
 	private static GameComponentManager componentManager;
@@ -87,6 +90,10 @@ public class SnakeGame {
 				createAndShowGUI();
 			}
 		});
+
+
+
+
 	}
 
 
@@ -107,8 +114,8 @@ public class SnakeGame {
 		snakeFrame.setVisible(true);
 		snakeFrame.setResizable(false);
 
-
-
+		challengeLevel = new ChallengeLevel();
+		componentManager.addChallenge(challengeLevel);
 
 
 		snakePanel = new DrawSnakeGamePanel(componentManager);
@@ -119,15 +126,9 @@ public class SnakeGame {
 
 		snakeFrame.add(snakePanel);
 
-
-
 		//Add listeners to listen for key presses
 		snakePanel.addKeyListener(new GameControls(snake));
 		snakePanel.addKeyListener(new SnakeControls(snake));
-
-
-
-
 
 		setGameStage(BEFORE_GAME);
 
@@ -145,17 +146,9 @@ public class SnakeGame {
 		 Kibble kibble = new Kibble(snake);
 		challengeLevel = new ChallengeLevel();
 		componentManager.addChallenge(challengeLevel);
-
-
-
-
 		componentManager.addSnake(snake);
 		componentManager.addKibble(kibble);
-
-
 		score = new Score();
-
-
 		componentManager.addScore(score);
 
 		gameStage = BEFORE_GAME;

@@ -141,27 +141,24 @@ public class DrawSnakeGamePanel extends JPanel {
 	}
 
 	private void displayGameGrid(Graphics g) {
-
 		int maxX = SnakeGame.xPixelMaxDimension;
 		int maxY= SnakeGame.yPixelMaxDimension;
 		int squareSize = SnakeGame.squareSize;
-		
+
 		g.clearRect(0, 0, maxX, maxY);
 
-
-
-
-		g.setColor(Color.RED);
+		g.setColor(Color.BLUE);
 
 		//Draw grid - horizontal lines
-		for (int y=0; y <= maxY ; y+= squareSize){			
+		for (int y=0; y <= maxY ; y+= squareSize){
 			g.drawLine(0, y, maxX, y);
 		}
 		//Draw grid - vertical lines
-		for (int x=0; x <= maxX ; x+= squareSize){			
+		for (int x=0; x <= maxX ; x+= squareSize){
 			g.drawLine(x, 0, x, maxY);
 		}
 	}
+
 
 	private void displayObstacles(Graphics g) {
 		LinkedList<Point> points= challengeLevel.obstaclesToDraw();
@@ -212,29 +209,29 @@ public class DrawSnakeGamePanel extends JPanel {
 		String warpWallsEnabled = SnakeGame.wardInUse() ? "ON" : "OFF";
 		g.drawString(warpWallsEnabled, 300, 75);
 
-		g.drawString("Press O for challenge", 17, 100);
+		g.drawString("Press CapLock for challenge", 17, 100);
 		String obstaclesEnabled = SnakeGame.isUseObstacles() ? "ON" : "OFF";
 		g.drawString(obstaclesEnabled, 300, 100);
 		g.setFont (new Font("Serif", Font.BOLD, 20));
 		g.drawString("Enter 1-5 to change game speed",15, 125);
 		long speed = SnakeGame.getGameSpeed();
-		String speedSetting;
+		String movingSpeed;
 		if (speed == SnakeGame.SPEED_1) {
-			speedSetting = "1 -Slowest";
+			movingSpeed = "1 -Slowest";
 		} else if (speed == SnakeGame.SPEED_2) {
-			speedSetting = "2 - Slow";
+			movingSpeed = "2 - Slow";
 		} else if (speed == SnakeGame.SPEED_3) {
-			speedSetting = "3 - Medium";
+			movingSpeed = "3 - Medium";
 		} else if (speed == SnakeGame.SPEED_4) {
-			speedSetting = "4 - Fast";
+			movingSpeed = "4 - Fast";
 		} else if (speed == SnakeGame.SPEED_5) {
-			speedSetting = "5 - Really Fast";
+			movingSpeed = "5 - Really Fast";
 		} else {
 			//this shouldn't happen
 			System.err.println("invalid speed in panel");
-			speedSetting = "";
+			movingSpeed = "";
 		}
-		g.drawString(speedSetting, 300, 125);
+		g.drawString(movingSpeed, 300, 125);
 	}
 
 
