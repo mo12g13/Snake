@@ -6,10 +6,13 @@ public class GameClock extends TimerTask {
 
 	GameComponentManager componentManager;
 	DrawSnakeGamePanel gamePanel;
-		
+	private ChallengeLevel level;
+
 	public GameClock(GameComponentManager components, DrawSnakeGamePanel gamePanel){
 		this.componentManager = components;
 		this.gamePanel = gamePanel;
+
+
 	}
 	
 	@Override

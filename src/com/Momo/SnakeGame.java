@@ -19,7 +19,10 @@ public class SnakeGame {
 	protected static Snake snake ;
 	private static boolean warp = false;
 	private static boolean mainChallenge = false;
+	private static boolean useObstacles = false;
 	private static int numberOfObstacles = 5;
+	private static ChallengeLevel challengeLevel;
+	private static 	Kibble kibble;
 
 
 	private static GameComponentManager componentManager;
@@ -32,6 +35,7 @@ public class SnakeGame {
 	static final long SPEED_5 = 100;
 
 	protected static long ndwClockInterval = SPEED_1;
+
 
 
 	static final int BEFORE_GAME = 1;
@@ -60,6 +64,21 @@ public class SnakeGame {
 	public static void main(String[] args) {
 		//Schedule a job for the event-dispatching thread:
 		//creating and showing this application's GUI.
+		try{
+			//Changing the lool and feel of the Jrame to CDE/Motif
+			for(UIManager.LookAndFeelInfo info: UIManager.getInstalledLookAndFeels()){
+				//System.out.println(info.getName());
+				if("CDE/Motif".equals(info.getName())){
+					UIManager.setLookAndFeel(info.getClassName());
+
+
+					break;
+				}
+			}
+
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 
 		SwingUtilities.invokeLater(new Runnable() {
 
@@ -71,21 +90,11 @@ public class SnakeGame {
 	}
 
 
+
 	private static void createAndShowGUI() {
 		//Create and set up the window.
-		try{
-			//Changing the lool and feel of the Jrame to CDE/Motif
-			for(UIManager.LookAndFeelInfo info: UIManager.getInstalledLookAndFeels()){
-				//System.out.println(info.getName());
-				if("CDE/Motif".equals(info.getName())){
-					UIManager.setLookAndFeel(info.getClassName());
-					break;
-				}
-			}
 
-		}catch (Exception e){
-			e.printStackTrace();
-		}
+
 		snakeFrame = new JFrame();
 		snakeFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();//Get a default screen size
@@ -100,12 +109,17 @@ public class SnakeGame {
 
 
 
+
+
 		snakePanel = new DrawSnakeGamePanel(componentManager);
+
 
 		snakePanel.setFocusable(true);
 		snakePanel.requestFocusInWindow(); //required to give this component the focus so it can generate KeyEvents
 
 		snakeFrame.add(snakePanel);
+
+
 
 		//Add listeners to listen for key presses
 		snakePanel.addKeyListener(new GameControls(snake));
@@ -113,9 +127,11 @@ public class SnakeGame {
 
 
 
+
+
 		setGameStage(BEFORE_GAME);
 
-		snakeFrame.setVisible(true);
+		//snakeFrame.setVisible(true);
 	}
 
 	private static void initializeGame() {
@@ -126,12 +142,19 @@ public class SnakeGame {
 
 		componentManager = new GameComponentManager();
 		snake = new Snake(xSquares, ySquares, squareSize);
-		Kibble kibble = new Kibble(snake);
+		 Kibble kibble = new Kibble(snake);
+		challengeLevel = new ChallengeLevel();
+		componentManager.addChallenge(challengeLevel);
+
+
+
 
 		componentManager.addSnake(snake);
 		componentManager.addKibble(kibble);
 
+
 		score = new Score();
+
 
 		componentManager.addScore(score);
 
@@ -139,7 +162,11 @@ public class SnakeGame {
 	}
 
 	protected static void newGame() {
+
 		Timer timer = new Timer();
+		if (useObstacles) {
+			challengeLevel.challengeEstablish(snake, kibble, numberOfObstacles);
+		}
 		GameClock clockTick = new GameClock(componentManager, snakePanel);
 		componentManager.newGame();
 		timer.scheduleAtFixedRate(clockTick, 0, clockInterval);
@@ -157,24 +184,22 @@ public class SnakeGame {
 		SnakeGame.gameStage = gameStage;
 	}
 
-	//A method that set the wrap wall
 	public static void isWarp() {
 		warp = !warp;
 	}
-	
-	//A method that check to see if the warp wall is in use
+
 	public static boolean wardInUse() {
 		return warp;
 	}
-	//A method that set a challenging level in the game
+
 	public static void challenge() {
 		mainChallenge = !mainChallenge;
 	}
-	//A method that checks to see if the challenge is being turn on
-	public static boolean challengInUse() {
+
+	public static boolean isUseObstacles() {
 		return mainChallenge;
 	}
-	// A mthod
+
 	public static void setGameSpeed(long speed) {
 		clockInterval = speed;
 	}

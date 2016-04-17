@@ -136,16 +136,20 @@ public class Snake {
 		//Did you hit the wall, snake? 
 		//Or eat your tail? Don't move. 
 
-		if (isGameOver()) {
+//		if (isGameOver()) {
+//			SnakeGame.setGameStage(SnakeGame.GAME_OVER);
+//			return;
+//		}
+//
+//		if (wonGame()) {
+//			SnakeGame.setGameStage(SnakeGame.GAME_WON);
+//			return;
+//		}
+
+		if (hitWall || ateTail || hitObstacle) {
 			SnakeGame.setGameStage(SnakeGame.GAME_OVER);
 			return;
 		}
-
-		if (wonGame()) {
-			SnakeGame.setGameStage(SnakeGame.GAME_WON);
-			return;
-		}
-
 
 		//Use snakeSquares array, and current heading, to move snake
 
@@ -245,6 +249,19 @@ public class Snake {
 		
 		lastHeading = currentHeading; //Update last confirmed heading
 
+	}
+	public boolean didHitObstacle(ChallengeLevel obstacles) {
+		hitObstacle = obstacles.isChallengePosition(snakeHeadX, snakeHeadY);
+		return hitObstacle;
+	}
+
+	protected boolean didHitWall(){
+		return hitWall;
+
+	}
+
+	protected boolean didEatTail(){
+		return ateTail;
 	}
 
 

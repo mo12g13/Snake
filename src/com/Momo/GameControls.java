@@ -27,32 +27,32 @@ public class   GameControls implements KeyListener {
 			if (ev.getKeyCode() == KeyEvent.VK_W) {
 				SnakeGame.isWarp();
 			}
-			//press on to turn on challenge
 			if (ev.getKeyCode() == KeyEvent.VK_O) {
 				SnakeGame.challenge();
 			}
-			//Default game speed
+			//The default game speed
 			if (ev.getKeyCode() == KeyEvent.VK_1) {
 				SnakeGame.setGameSpeed(SnakeGame.SPEED_1);
 			}
-			//press 2 if you would want the game speed to increase to increase to 2
+			//Press 4 if you would like to increase the game speed to 3
 			if (ev.getKeyCode() == KeyEvent.VK_2) {
 				SnakeGame.setGameSpeed(SnakeGame.SPEED_2);
 			}
-			//press 3 if you would want the game speed to increase to increase to 3
+			//Press 4 if you would like to increase the game speed to 4
 			if (ev.getKeyCode() == KeyEvent.VK_3) {
 				SnakeGame.setGameSpeed(SnakeGame.SPEED_3);
 			}
-			//press 4 if you would want the game speed to increase to increase to 4
+			//Press 4 if you would like to increase the game speed to 4
 			if (ev.getKeyCode() == KeyEvent.VK_4) {
 				SnakeGame.setGameSpeed(SnakeGame.SPEED_4);
 			}
-			//press 5 if you would want the game speed to increase to increase to five
+			//Press five if you would want to increase your speed from the display option
 			if (ev.getKeyCode() == KeyEvent.VK_5) {
 				SnakeGame.setGameSpeed(SnakeGame.SPEED_5);
 
 			}
 			panel.repaint();
+			//Press A to begin the game
 			if (ev.getKeyCode() == KeyEvent.VK_A) {
 				//if you press space, let the game starts
 				SnakeGame.setGameStage(SnakeGame.DURING_GAME);

@@ -22,19 +22,26 @@ public class DrawSnakeGamePanel extends JPanel {
 	private Snake snake;
 	private Kibble kibble;
 	private Score score;
-	private ChallengeLevel challenge;
+	private ChallengeLevel challengeLevel;
+	private int count;
+
+
 	//The Draw snake constructor that inherits from the JPanel to draw the components on the  Jframe using JPanel
 	DrawSnakeGamePanel(GameComponentManager components){
 		this.snake = components.getSnake();//Get the snake and display the snake on the JPanel
 		this.kibble = components.getKibble();//display the kibble on the Jpanel
 		this.score = components.getScore();//display the score on the Jpanel
+		this.challengeLevel = components.getChallengeLevel();
 		this.setBackground(Color.CYAN);//Change the background color of the JPanel to Cyan
+
+
 
 
 	}
 	
 	public Dimension getPreferredSize() {
         return new Dimension(SnakeGame.xPixelMaxDimension, SnakeGame.yPixelMaxDimension);
+
     }
 
     public void paintComponent(Graphics g) {
@@ -57,7 +64,7 @@ public class DrawSnakeGamePanel extends JPanel {
 			case SnakeGame.BEFORE_GAME: {
 				g.setColor(Color.BLUE);//Display the instructions color  to yellow
 
-				displayGameMenu(g);
+				displayOptions(g);
 				displayInstructions(g);
 
 				break;
@@ -66,6 +73,7 @@ public class DrawSnakeGamePanel extends JPanel {
 			case SnakeGame.DURING_GAME: {
 
 				displayGame(g);
+
 
 
 				break;
@@ -99,6 +107,7 @@ public class DrawSnakeGamePanel extends JPanel {
 		Font myFond = new Font(Font.SERIF, Font.BOLD, 23);//Set new Font for After game display
 
 
+
 		g.clearRect(100,100,350,350);
 		g.setFont(myFond);
 
@@ -124,6 +133,11 @@ public class DrawSnakeGamePanel extends JPanel {
 		displayGameGrid(g);
 		displaySnake(g);
 		displayKibble(g);
+		if(SnakeGame.isUseObstacles()){
+			displayObstacles(g);
+
+		}
+
 	}
 
 	private void displayGameGrid(Graphics g) {
@@ -149,6 +163,13 @@ public class DrawSnakeGamePanel extends JPanel {
 		}
 	}
 
+	private void displayObstacles(Graphics g) {
+		LinkedList<Point> points= challengeLevel.obstaclesToDraw();
+		g.setColor(Color.RED);
+		for (Point p : points) {
+			g.fillRect(p.x, p.y, SnakeGame.squareSize, SnakeGame.squareSize);
+		}
+	}
 	private void displayKibble(Graphics g) {
 
 		//Draw the kibble in green
@@ -179,8 +200,7 @@ public class DrawSnakeGamePanel extends JPanel {
 			g.fillRect((int)p.getX(), (int)p.getY(), SnakeGame.squareSize, SnakeGame.squareSize);
 		}
 	}
-	//A method that display the game menu
-	private void displayGameMenu(Graphics g) {
+	private void displayOptions(Graphics g) {
 
 		g.setFont(new Font("Time New Roman", Font.BOLD, 16));
 
@@ -193,7 +213,7 @@ public class DrawSnakeGamePanel extends JPanel {
 		g.drawString(warpWallsEnabled, 300, 75);
 
 		g.drawString("Press O for challenge", 17, 100);
-		String obstaclesEnabled = SnakeGame.  challengInUse() ? "ON" : "OFF";
+		String obstaclesEnabled = SnakeGame.isUseObstacles() ? "ON" : "OFF";
 		g.drawString(obstaclesEnabled, 300, 100);
 		g.setFont (new Font("Serif", Font.BOLD, 20));
 		g.drawString("Enter 1-5 to change game speed",15, 125);
@@ -220,9 +240,9 @@ public class DrawSnakeGamePanel extends JPanel {
 
 
 	private void displayInstructions(Graphics g) {
-		g.setFont(new Font("SanSerif", Font.BOLD, 23));//Change the fond of display instructions to bold and fond of sanserif with size of 34
-        g.drawString("Press \"A\" key to begin!",17,200);
-        g.drawString("Press q to quit the game",17,300);
+		g.setFont(new Font("Serif", Font.BOLD, 34));//Change the fond of display instructions to bold and fond of sanserif with size of 34
+        g.drawString("Press A to begin!",100,200);
+        g.drawString("Press q to quit the game",100,300);		
     	}
 
 
